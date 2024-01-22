@@ -42,7 +42,7 @@ def preserve_statistic(queries):
 
 
 def preserve_subset_statistic(queries):
-    @jit
+   # @jit
     def compute_statistic(D):
         return (
             np.concatenate(

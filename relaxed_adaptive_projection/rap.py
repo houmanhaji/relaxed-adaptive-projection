@@ -6,7 +6,7 @@ from typing import Tuple, Any, Callable
 
 import numpy as np_orig
 from jax import numpy as np, random, jit, value_and_grad
-from jax.experimental import optimizers
+from jax.example_libraries import optimizers
 
 from privacy_budget_tracking import zCDPTracker
 from utils_data import sparsemax_project, randomized_rounding
@@ -15,7 +15,7 @@ from .rap_configuration import RAPConfiguration
 
 
 class RAP:
-    def __init__(self, args: RAPConfiguration, key: np.DeviceArray):
+    def __init__(self, args: RAPConfiguration, key: np.array):
         self.args = args
 
         self.start_time = time.time()
@@ -68,8 +68,8 @@ class RAP:
         )
 
     def __compute_initial_dataset(
-        self, selection: SyntheticInitializationOptions, key: np.DeviceArray
-    ) -> np.DeviceArray:
+        self, selection: SyntheticInitializationOptions, key: np.array
+    ) -> np.array:
         """
         Function that computes D_prime based on input
         :param selection: the type of synthetic data initialization
@@ -103,7 +103,7 @@ class RAP:
                 ],
             )
 
-    def __initialize_synthetic_dataset(self, key: np.DeviceArray):
+    def __initialize_synthetic_dataset(self, key: np.array):
         """
         Function that
         :param key: key to generate random numbers with
@@ -140,15 +140,15 @@ class RAP:
         return epsilon_p, delta_p
 
     def __jit_loss_fn(
-        self, statistic_fn: Callable[[np.DeviceArray], np.DeviceArray]
-    ) -> Callable[[np.DeviceArray, np.DeviceArray], np.DeviceArray]:
+        self, statistic_fn: Callable[[np.array], np.array]
+    ) -> Callable[[np.array, np.array], np.array]:
 
         ord_norm = norm_mapping[self.args.norm]
 
         @jit
         def compute_loss_fn(
-            synthetic_dataset: np.DeviceArray, target_statistics: np.DeviceArray
-        ) -> np.DeviceArray:
+            synthetic_dataset: np.array, target_statistics: np.array
+        ) -> np.array:
             if self.args.norm is Norm.LOG_EXP:
                 return np.log(
                     np.exp(statistic_fn(synthetic_dataset) - target_statistics).sum()
@@ -164,9 +164,9 @@ class RAP:
         self,
         learning_rate: float,
         optimizer: Callable[..., optimizers.Optimizer],
-        loss_fn: Callable[[np.DeviceArray, np.DeviceArray], np.DeviceArray],
+        loss_fn: Callable[[np.array, np.array], np.array],
     ) -> Tuple[
-        Callable[[np.DeviceArray, np.DeviceArray], np.DeviceArray], np.DeviceArray
+        Callable[[np.array, np.array], np.array], np.array
     ]:
 
         opt_init, opt_update, get_params = optimizer(learning_rate)
@@ -181,7 +181,7 @@ class RAP:
 
         return update, opt_state
 
-    def __clip_array(self, array: np.DeviceArray) -> np.DeviceArray:
+    def __clip_array(self, array: np.array) -> np.array:
         if self.args.projection_interval:
             projection_min, projection_max = self.args.projection_interval
             return np.clip(array, projection_min, projection_max)
@@ -189,7 +189,7 @@ class RAP:
             return array
 
     def train(
-        self, dataset: np.DeviceArray, k_way_attributes: Any, key: np.DeviceArray
+        self, dataset: np.array, k_way_attributes: Any, key: np.array
     ) -> None:
         true_statistics = self.args.statistic_function(dataset)
 

@@ -20,3 +20,8 @@ __pycache__/
 /.idea
 *.png
 
+datasets/adult-domain.json
+datasets/adult.csv
+datasets/loans-domain.json
+datasets/loans.csv
+results/

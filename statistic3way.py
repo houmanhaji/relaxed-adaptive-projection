@@ -10,4 +10,4 @@ def get_sensitivity(D):
 
 # 3 way correlations --- i.e. for all triples of columns i,j,k, we compute the value sum_t D[t,i]*D[t,j]*D[t,k]
 def preserve_statistic(D):
-    return np.einsum("ij,ik,il->jkl", D, D, D) / D.shape[0]
+    return np.einsum("ij,ik, ->jkl", D, D, D) / D.shape[0]

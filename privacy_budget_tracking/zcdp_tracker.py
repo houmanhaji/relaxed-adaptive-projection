@@ -148,7 +148,7 @@ class zCDPTracker:
 
     @staticmethod
     def __filter_answered_queries(
-        sorted_indices: np.DeviceArray, answered_queries: np.DeviceArray
+        sorted_indices: np.array, answered_queries: np.array
     ):
         return sorted_indices[
             np.in1d(sorted_indices, answered_queries,
@@ -157,10 +157,10 @@ class zCDPTracker:
 
     def report_noisy_max(
         self,
-        query_errors: np.DeviceArray,
-        answered_queries: np.DeviceArray,
+        query_errors: np.array,
+        answered_queries: np.array,
         budget: float,
-    ) -> np.DeviceArray:
+    ) -> np.array:
         """
         Given the errors of a set of queries, find the worst query that have not been answered yet
         :param query_errors: Errors corresponding to each query
@@ -179,11 +179,11 @@ class zCDPTracker:
 
     def select_noisy_q(
         self,
-        query_errs: np.DeviceArray,
-        answered_queries: np.DeviceArray,
+        query_errs: np.array,
+        answered_queries: np.array,
         q: int,
         query_select_budget: float,
-    ) -> np.DeviceArray:
+    ) -> np.array:
         """
         Given the errors of a set of queries, find the q noisiest queries that have not been answered yet
         :param query_errs: Errors corresponding to each query

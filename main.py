@@ -87,7 +87,7 @@ parser.add_argument(
     "--data-source",
     type=str,
     choices=data_sources.keys(),
-    default="toy_binary",
+    default="adult",
     dest="data_source",
     help="Data source used to train data generator",
 )

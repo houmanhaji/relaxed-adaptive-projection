@@ -12,8 +12,8 @@ class RAPConfiguration:
     num_points: int
     num_generated_points: int
     num_dimensions: int
-    statistic_function: Callable[..., np.DeviceArray]
-    preserve_subset_statistic: Callable[..., Callable[[np.DeviceArray], np.DeviceArray]]
+    statistic_function: Callable[..., np.array]
+    preserve_subset_statistic: Callable[..., Callable[[np.array], np.array]]
     get_queries: Callable[..., Any]
     get_sensitivity: Callable[..., Callable[..., Any]]
 

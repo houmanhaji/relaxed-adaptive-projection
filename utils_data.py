@@ -1,15 +1,15 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: CC-BY-NC-4.0
 import jax.numpy as np
-from jax import random, jit, nn, vmap, partial
+from jax import random, jit, nn
 import numpy as onp
 from scipy.stats import norm
 import math
 import datasets
-from jax.ops import index_update
+#from jax.ops import index_update
 
 data_sources = {
-    "toy_binary": datasets.toy_binary.ToyBinary,
+    #"toy_binary": datasets.toy_binary.ToyBinary,
     "adult": datasets.adult.Adult,
     "loans": datasets.loans.Loans,
 }
